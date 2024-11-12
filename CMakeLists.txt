@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.14)
 project(LibKML)
 
 set(VERSION_MAJOR "1")
@@ -105,8 +105,8 @@ endif()
 
 include_directories(${Boost_INCLUDE_DIRS})
 
-if(NOT BUILD_SHARED_LIBS)    
-    add_definitions(-DXML_STATIC) #for static expat    
+if(NOT BUILD_SHARED_LIBS)
+    add_definitions(-DXML_STATIC) #for static expat
 endif()
 
 #expat is dependency for kmlbase and kmldom
@@ -152,7 +152,7 @@ if(NOT WIN32 OR MINGW)
   install(FILES ${CMAKE_BINARY_DIR}/libkml.pc
     DESTINATION ${PKGCONFIG_INSTALL_DIR})
 endif()
- 
+
 # Make relative paths absolute (needed later on)
 foreach(p LIB BIN INCLUDE CMAKE)
   set(var ${p}_INSTALL_DIR)
@@ -163,7 +163,7 @@ endforeach()
 
 export(TARGETS ${LIBKML_TARGETS}
   FILE "${CMAKE_BINARY_DIR}/LibKMLTargets.cmake")
-  
+
 # Create the LibKMLConfig.cmake and LibKMLConfigVersion files
 file(RELATIVE_PATH REL_INCLUDE_DIR "${CMAKE_INSTALL_DIR}"
   "${INCLUDE_INSTALL_DIR}")
@@ -174,14 +174,19 @@ configure_file(cmake/LibKMLConfig.cmake.in
   "${PROJECT_BINARY_DIR}/LibKMLConfig.cmake" @ONLY)
 
 # ... for the install tree
-set(CONF_INCLUDE_DIRS "\${LIBKML_CMAKE_DIR}/${REL_INCLUDE_DIR}")
-configure_file(cmake/LibKMLConfig.cmake.in
-  "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LibKMLConfig.cmake" @ONLY)
+include(CMakePackageConfigHelpers)
+#set(CONF_INCLUDE_DIRS "\${LIBKML_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+configure_package_config_file(cmake/LibKMLConfig.cmake.in
+  "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LibKMLConfig.cmake"
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/LibKML
+)
 
 # ... for both
-configure_file(cmake/LibKMLConfigVersion.cmake.in
-  "${CMAKE_BINARY_DIR}/LibKMLConfigVersion.cmake" @ONLY)
- 
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/LibKMLConfigVersion.cmake
+  VERSION ${VERSION_STRING}
+  COMPATIBILITY SameMajorVersion )
+
 # Install the LibKMLConfig.cmake and LibKMLConfigVersion.cmake
 install(FILES
   "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LibKMLConfig.cmake"
