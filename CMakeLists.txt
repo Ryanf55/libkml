@@ -40,6 +40,8 @@ if(NOT DEFINED DATA_INSTALL_DIR)
 endif(NOT DEFINED DATA_INSTALL_DIR)
 if(NOT DEFINED INCLUDE_INSTALL_DIR)
   set(INCLUDE_INSTALL_DIR "include/kml")
+else()
+  message(AUTHOR_WARNING "INCLUDE_INSTALL_DIR may not be obeyed. Try setting CMAKE_INSTALL_INCLUDEDIR")
 endif(NOT DEFINED INCLUDE_INSTALL_DIR)
 if(NOT DEFINED MAN_INSTALL_DIR)
   set(MAN_INSTALL_DIR "man")
@@ -165,9 +167,6 @@ export(TARGETS ${LIBKML_TARGETS}
   FILE "${CMAKE_BINARY_DIR}/LibKMLTargets.cmake")
 
 # Create the LibKMLConfig.cmake and LibKMLConfigVersion files
-file(RELATIVE_PATH REL_INCLUDE_DIR "${CMAKE_INSTALL_DIR}"
-  "${INCLUDE_INSTALL_DIR}")
-
 # ... for the build tree
 set(CONF_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/src")
 configure_file(cmake/LibKMLConfig.cmake.in
@@ -175,7 +174,6 @@ configure_file(cmake/LibKMLConfig.cmake.in
 
 # ... for the install tree
 include(CMakePackageConfigHelpers)
-#set(CONF_INCLUDE_DIRS "\${LIBKML_CMAKE_DIR}/${REL_INCLUDE_DIR}")
 configure_package_config_file(cmake/LibKMLConfig.cmake.in
   "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LibKMLConfig.cmake"
   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/LibKML
