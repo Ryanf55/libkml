@@ -2,8 +2,12 @@
 # Defines:
 
 #  MINIZIP_INCLUDE_DIR - minizip include directory
-#  MINIZIP_LIBRARY     - minizip library file
+#  MINIZIP_LIBRARIES   - minizip libraries
 #  MINIZIP_FOUND       - TRUE if minizip is found
+
+# Targets:
+
+#  MiniZip::MiniZip
 
 if (MINIZIP_INCLUDE_DIR)
  #check cache 
@@ -25,6 +29,14 @@ if (MINIZIP_FOUND)
    if (NOT MINIZIP_FIND_QUIETLY)
       message(STATUS "Found Minizip library: ${MINIZIP_LIBRARY}")
    endif ()
+
+   if(NOT TARGET MiniZip::MiniZip)
+      add_library(MiniZip::MiniZip UNKNOWN IMPORTED)
+      set_target_properties(MiniZip::MiniZip PROPERTIES
+         INTERFACE_INCLUDE_DIRECTORIES "${MINIZIP_INCLUDE_DIR}"
+         IMPORTED_LOCATION "${MINIZIP_LIBRARIES}"
+         )
+   endif()
 else ()
    if (NOT MINIZIP_FIND_QUIETLY)
       message(FATAL_ERROR "Could NOT find Minizip library")
