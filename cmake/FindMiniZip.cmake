@@ -4,6 +4,7 @@
 #  MINIZIP_INCLUDE_DIR - minizip include directory
 #  MINIZIP_LIBRARIES   - minizip libraries
 #  MINIZIP_FOUND       - TRUE if minizip is found
+#  MiniZip_FOUND       - Same as MINIZIP_FOUND
 
 # Targets:
 
@@ -23,6 +24,7 @@ find_library(MINIZIP_LIBRARIES NAMES minizip)
 
 if (MINIZIP_INCLUDE_DIR AND MINIZIP_LIBRARIES)
   set(MINIZIP_FOUND TRUE)
+  set(MiniZip_FOUND TRUE)
 endif ()
 
 if (MINIZIP_FOUND)

@@ -2,6 +2,8 @@
 
 include(${CMAKE_CURRENT_LIST_DIR}/LibKMLTargets.cmake)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+include(CMakeFindDependencyMacro)
 find_dependency(EXPAT REQUIRED)
 find_dependency(MiniZip REQUIRED)
 find_dependency(UriParser REQUIRED)

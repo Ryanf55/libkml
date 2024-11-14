@@ -184,5 +184,7 @@ install(FILES
   "${CMAKE_BINARY_DIR}/LibKMLConfigVersion.cmake"
   DESTINATION ${DEF_INSTALL_CMAKE_DIR} )
 
+add_subdirectory(cmake)
+
 # Install the export set for use with the install-tree
 install(EXPORT LibKMLTargets DESTINATION ${DEF_INSTALL_CMAKE_DIR})
