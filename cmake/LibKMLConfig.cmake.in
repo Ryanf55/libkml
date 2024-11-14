@@ -1,3 +1,8 @@
 @PACKAGE_INIT@
 
 include(${CMAKE_CURRENT_LIST_DIR}/LibKMLTargets.cmake)
+
+find_dependency(EXPAT REQUIRED)
+find_dependency(MiniZip REQUIRED)
+find_dependency(UriParser REQUIRED)
+find_dependency(ZLIB REQUIRED)
